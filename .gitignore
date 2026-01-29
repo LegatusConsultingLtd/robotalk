@@ -16,3 +16,8 @@ dist/
 
 # OS
 .DS_Store
+
+# Test / temp files
+*.mp3
+-F
+
