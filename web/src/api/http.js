@@ -1,5 +1,20 @@
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8001";
 
+export async function ensureCsrf() {
+  // Calls backend endpoint that sets robotalk_csrf cookie and returns token
+  const res = await fetch(`${API_BASE}/auth/csrf`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    throw new Error(`CSRF_FETCH_FAILED: ${res.status} ${res.statusText}`);
+  }
+
+  const data = await res.json().catch(() => ({}));
+  return data?.csrf_token;
+}
+
 export async function apiFetch(path, options = {}) {
   const res = await fetch(`${API_BASE}${path}`, {
     ...options,
@@ -17,3 +32,6 @@ export async function apiFetch(path, options = {}) {
 
   return data;
 }
+
+
+
