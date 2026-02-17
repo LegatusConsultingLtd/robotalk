@@ -218,7 +218,7 @@ useEffect(() => {
 
       const data = await apiFetch("/transcribe", {
         method: "POST",
-        body: form,
+        body: fd,
       });
 
       setInstruction(data?.text || "");
@@ -307,7 +307,7 @@ useEffect(() => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      
+
       // Model returns updated email body in reply_draft (full email body)
       setDraftBody(data.reply_draft || draftBody);
       setStatus("Edit applied ✅");
