@@ -216,19 +216,13 @@ useEffect(() => {
       const fd = new FormData();
       fd.append("audio", blob, "recording.webm");
 
-      const res = await apiFetch("/transcribe", {
+      const data = await apiFetch("/transcribe", {
         method: "POST",
-        body: fd,
+        body: form,
       });
 
+      setInstruction(data?.text || "");
 
-      if (!res.ok) {
-        const txt = await res.text();
-        throw new Error(`Transcribe failed (${res.status}): ${txt}`);
-      }
-
-      const data = await res.json();
-      const text = data.text || "";
 
       if (target === "edit") {
         setEditInstruction(text);
@@ -258,19 +252,12 @@ useEffect(() => {
         company_name: "Radbury Double Glazing",
       };
 
-      const res = await apiFetch("/draft", {
+      const data = await apiFetch("/draft", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
-
-      if (!res.ok) {
-        const txt = await res.text();
-        throw new Error(`Draft failed (${res.status}): ${txt}`);
-      }
-
-      const data = await res.json();
       setDraftSubject(data.subject_suggestion || "");
       setDraftBody(data.reply_draft || "");
       setStatus("Draft ready ✅");
@@ -315,18 +302,12 @@ useEffect(() => {
         company_name: "Radbury Double Glazing",
       };
 
-      const res = await apiFetch("/draft", {
+      const data = await apiFetch("/draft_form", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-
-      if (!res.ok) {
-        const txt = await res.text();
-        throw new Error(`Edit failed (${res.status}): ${txt}`);
-      }
-
-      const data = await res.json();
+      
       // Model returns updated email body in reply_draft (full email body)
       setDraftBody(data.reply_draft || draftBody);
       setStatus("Edit applied ✅");
