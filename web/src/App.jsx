@@ -221,7 +221,6 @@ useEffect(() => {
         body: fd,
       });
 
-      setInstruction(data?.text || "");
       const text = data?.text || "";
 
 
@@ -303,7 +302,7 @@ useEffect(() => {
         company_name: "Radbury Double Glazing",
       };
 
-      const data = await apiFetch("/draft_form", {
+      const data = await apiFetch("/draft", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
