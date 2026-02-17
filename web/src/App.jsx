@@ -222,6 +222,7 @@ useEffect(() => {
       });
 
       setInstruction(data?.text || "");
+      const text = data?.text || "";
 
 
       if (target === "edit") {
